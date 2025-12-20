@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Görüntü İşleme: Sayısal ve Görsel Rehber</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #334155;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #cbd5e1;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            padding: 40px 0;
+            scroll-behavior: smooth;
+        }
+
+        .slide-container {
+            width: 1100px;
+            min-height: 850px;
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            margin-bottom: 60px;
+            padding: 50px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-header {
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        .slide-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .slide-title span {
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        /* Matris ve Akış Tasarımı */
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px dashed #cbd5e1;
+        }
+
+        .matrix-box {
+            text-align: center;
+        }
+
+        .matrix-box h4 {
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .matrix-table {
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--primary);
+        }
+
+        .matrix-table td {
+            border: 1px solid #cbd5e1;
+            width: 45px;
+            height: 45px;
+            text-align: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Renk Vurguları */
+        .hl-blue {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .hl-green {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .hl-yellow {
+            background-color: #fef9c3;
+            color: #854d0e;
+        }
+
+        .hl-red {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .arrow {
+            font-size: 30px;
+            color: #94a3b8;
+            font-weight: bold;
+        }
+
+        .formula-card {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 6px solid var(--accent);
+            margin: 20px 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .python-snippet {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .python-snippet::before {
+            content: "Python (OpenCV)";
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: var(--accent);
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .desc-text {
+            color: var(--secondary);
+            line-height: 1.6;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        strong {
+            color: var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- GİRİŞ -->
+    <div class="slide-container">
+        <div style="text-align: center; margin-top: 150px;">
+            <h1 style="font-size: 70px; color: var(--primary); margin: 0; letter-spacing: -2px;">GÖRÜNTÜ İŞLEME</h1>
+            <h2 style="font-size: 24px; color: var(--accent); font-weight: 400; margin-bottom: 50px;">Matematiksel ve
+                Sayısal Uygulama Kılavuzu</h2>
+            <div style="width: 120px; height: 8px; background: var(--accent); margin: 0 auto 40px; border-radius: 4px;">
+            </div>
+            <p class="desc-text" style="max-width: 750px; margin: 0 auto; font-size: 18px;">
+                Bu sunumda piksellerin nasıl manipüle edildiğini, ham veriden (girdi) işlenmiş veriye (çıktı) dönüşümünü
+                adım adım, gerçek matris değerleri üzerinden inceleyeceğiz.
+            </p>
+        </div>
+    </div>
+
+    <!-- 1. SAMPLING -->
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title"><span>01</span> Örnekleme (Sampling)</h2>
+        </div>
+        <div class="grid-2">
+            <div>
+                <p class="desc-text"><strong>Örnekleme</strong>, görüntünün mekansal çözünürlüğünü azaltma işlemidir.
+                    <b>INTER_NEAREST</b> yönteminde, hedef koordinata en yakın olan orijinal piksel değeri doğrudan
+                    seçilir.
+                </p>
+                <div class="formula-card">
+                    Adım s = 2 için (Yarı boyut):<br>
+                    Yeni[x, y] = Eski[x*2, y*2]
+                </div>
+                <div class="python-snippet">
+                    cv2.resize(img, (w//2, h//2), interpolation=cv2.INTER_NEAREST)
+                </div>
+            </div>
+            <div class="flow-container">
+                <div class="matrix-box">
+                    <h4>4x4 Girdi (Mavi Pikseller Seçiliyor)</h4>
+                    <table class="matrix-table">
+                        <tr>
+                            <td class="hl-blue">150</td>
+                            <td>30</td>
+                            <td class="hl-blue">200</td>
+                            <td>45</td>
+                        </tr>
+                        <tr>
+                            <td>20</td>
+                            <td>80</td>
+                            <td>100</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td class="hl-blue">40</td>
+                            <td>15</td>
+                            <td class="hl-blue">255</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>90</td>
+                            <td>55</td>
+                            <td>0</td>
+                            <td>200</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="arrow">↓</div>
+                <div class="matrix-box">
+                    <h4>2x2 Çıktı Matrisi</h4>
+                    <table class="matrix-table">
+                        <tr>
+                            <td class="hl-blue">150</td>
+                            <td class="hl-blue">200</td>
+                        </tr>
+                        <tr>
+                            <td class="hl-blue">40</td>
+                            <td class="hl-blue">255</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. QUANTIZATION -->
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title"><span>02</span> Kuantalama (Quantization)</h2>
+        </div>
+        <div class="grid-2">
+            <div>
+                <p class="desc-text"><strong>Kuantalama</strong>, piksellerin genlik (renk) derinliğini azaltır. Bit
+                    sayısı düştükçe renk geçişleri sertleşir.</p>
+                <div class="formula-card">
+                    Level = 2^bits (Seviye Sayısı)<br>
+                    Step = 256 / Level<br>
+                    Çıktı = (Girdi // Step) * Step
+                </div>
+                <p class="desc-text">Örnek: 2-bit (4 renk seviyesi) için Step = 64. Her değer 0, 64, 128 veya 192'ye
+                    yuvarlanır.</p>
+            </div>
+            <div class="flow-container" style="flex-direction: row;">
+                <div class="matrix-box">
+                    <h4>8-bit Orijinal</h4>
+                    <table class="matrix-table">
+                        <tr>
+                            <td>45</td>
+                            <td>120</td>
+                        </tr>
+                        <tr>
+                            <td>180</td>
+                            <td>250</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="arrow">→</div>
+                <div class="matrix-box">
+                    <h4>2-bit Kuantalanmış</h4>
+                    <table class="matrix-table">
+                        <tr>
+                            <td class="hl-yellow">0</td>
+                            <td class="hl-yellow">64</td>
+                        </tr>
+                        <tr>
+                            <td class="hl-yellow">128</td>
+                            <td class="hl-yellow">192</td>
+                        </tr>
+                    </table>
+                    <p style="font-size: 11px; margin-top: 10px;">(45 // 64 = 0) * 64 = 0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. GAUSSIAN FILTER -->
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title"><span>05</span> Gaussian Filtre (Blur)</h2>
+        </div>
+        <div class="grid-2">
+            <div>
+                <p class="desc-text">Gürültü azaltmak için kullanılır. Merkez piksel çevresindekilerle çarpılır ve
+                    ağırlıklı ortalama alınır.</p>
+                <div class="formula-card">
+                    Kernel (3x3):<br>
+                    1/16 * [[1, 2, 1], [2, 4, 2], [1, 2, 1]]
+                </div>
+                <div class="python-snippet">
+                    cv2.GaussianBlur(img, (3,3), 0)
+                </div>
+            </div>
+            <div class="flow-container">
+                <div class="matrix-box">
+                    <h4>Girdi (Merkez 200)</h4>
+                    <table class="matrix-table">
+                        <tr>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td class="hl-red">200</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>10</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="arrow">↓</div>
+                <div class="matrix-box">
+                    <h4>İşlem Sonucu</h4>
+                    <p style="font-size: 11px;">(10*1 + 10*2 + 10*1 + ... + 200*4 + ...) / 16 = <strong>57.5</strong>
+                    </p>
+                    <table class="matrix-table">
+                        <tr>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                        </tr>
+                        <tr>
+                            <td>...</td>
+                            <td class="hl-green">58</td>
+                            <td>...</td>
+                        </tr>
+                        <tr>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. MORPHOLOGY -->
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title"><span>06</span> Morfoloji: Dilation (Genişletme)</h2>
+        </div>
+        <div class="grid-2">
+            <div>
+                <p class="desc-text"><strong>Dilation</strong>, nesneleri kalınlaştırır. Kernel (3x3 birler matrisi)
+                    altındaki en büyük değeri (binary'de 1 varsa 1'i) seçer.</p>
+                <div class="formula-card">
+                    Y[x, y] = Max(Orijinal Pencere ∩ Kernel)
+                </div>
+                <div class="python-snippet">
+                    kernel = np.ones((3,3), np.uint8)<br>
+                    cv2.dilate(img, kernel, iterations=1)
+                </div>
+            </div>
+            <div class="flow-container" style="flex-direction: row;">
+                <div class="matrix-box">
+                    <h4>Binary Girdi</h4>
+                    <table class="matrix-table">
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td class="hl-blue">1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="arrow">→</div>
+                <div class="matrix-box">
+                    <h4>Dilation Sonucu</h4>
+                    <table class="matrix-table">
+                        <tr class="hl-green">
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr class="hl-green">
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr class="hl-green">
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. SOBEL EDGE -->
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title"><span>08</span> Sobel Kenar Algılama</h2>
+        </div>
+        <div class="grid-2">
+            <div>
+                <p class="desc-text"><strong>Sobel</strong>, pikseller arasındaki yoğunluk farkını (gradyan) hesaplar.
+                    Fark ne kadar büyükse kenar o kadar belirgindir.</p>
+                <div class="formula-card">
+                    Gx = [[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]<br>
+                    Gradyan (G) = |Gx| + |Gy| (Yaklaşık)
+                </div>
+                <div class="python-snippet">
+                    cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
+                </div>
+            </div>
+            <div class="flow-container">
+                <div class="matrix-box">
+                    <h4>Dikey Kenar Örneği</h4>
+                    <table class="matrix-table">
+                        <tr>
+                            <td class="hl-blue">10</td>
+                            <td class="hl-blue">10</td>
+                            <td class="hl-yellow">200</td>
+                        </tr>
+                        <tr>
+                            <td class="hl-blue">10</td>
+                            <td class="hl-blue">10</td>
+                            <td class="hl-yellow">200</td>
+                        </tr>
+                        <tr>
+                            <td class="hl-blue">10</td>
+                            <td class="hl-blue">10</td>
+                            <td class="hl-yellow">200</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="arrow">↓ (Yatay Fark Gx)</div>
+                <div class="matrix-box">
+                    <h4>Sobel Gradyan Çıktısı</h4>
+                    <table class="matrix-table">
+                        <tr>
+                            <td>0</td>
+                            <td class="hl-green">255</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td class="hl-green">255</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td class="hl-green">255</td>
+                            <td>0</td>
+                        </tr>
+                    </table>
+                    <p style="font-size: 11px; margin-top:5px;">Ortadaki büyük farklar tespit edildi.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 11. EMBOSS -->
+    <div class="slide-container">
+        <div class="slide-header">
+            <h2 class="slide-title"><span>11</span> Emboss (Kabartma)</h2>
+        </div>
+        <div class="grid-2">
+            <div>
+                <p class="desc-text">Görüntüye 3D bir derinlik verir. Pikselleri bir yönden çıkarıp diğer yönden toplar.
+                    Fark yoksa 0 olur, bu yüzden 128 (nötr gri) eklenir.</p>
+                <div class="formula-card">
+                    Kernel:<br>
+                    [[-2, -1, 0],<br>
+                    &nbsp;[-1, &nbsp;1, 1],<br>
+                    &nbsp;[ 0, &nbsp;1, 2]] + 128 (Offset)
+                </div>
+            </div>
+            <div class="flow-container" style="flex-direction: row;">
+                <div class="matrix-box">
+                    <h4>Düz Zemin (Piksel=50)</h4>
+                    <table class="matrix-table">
+                        <tr>
+                            <td>50</td>
+                            <td>50</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <td>50</td>
+                            <td>50</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <td>50</td>
+                            <td>50</td>
+                            <td>50</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="arrow">→</div>
+                <div class="matrix-box">
+                    <h4>Emboss Çıktısı</h4>
+                    <table class="matrix-table">
+                        <tr class="hl-yellow">
+                            <td>128</td>
+                            <td>128</td>
+                            <td>128</td>
+                        </tr>
+                        <tr class="hl-yellow">
+                            <td>128</td>
+                            <td>128</td>
+                            <td>128</td>
+                        </tr>
+                        <tr class="hl-yellow">
+                            <td>128</td>
+                            <td>128</td>
+                            <td>128</td>
+                        </tr>
+                    </table>
+                    <p style="font-size: 11px; margin-top: 10px;">Değişim yoksa sonuç nötr gridir.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÖZET VE SONUÇ -->
+    <div class="slide-container" style="justify-content: center; align-items: center; text-align: center;">
+        <h1 style="font-size: 60px; color: var(--accent);">ÖZET</h1>
+        <p class="desc-text" style="font-size: 20px; max-width: 600px;">
+            Görüntü işleme, aslında piksellerden oluşan devasa matrislerin matematiksel bir dansıdır. Filtreler,
+            morfoloji ve kenar algılama bu dansın farklı adımlarıdır.
+        </p>
+        <div style="margin-top: 50px; font-family: 'Fira Code'; font-size: 14px; color: var(--secondary);">
+            Görüntü İşleme Teknik Rehberi v2.0
+        </div>
+    </div>
+
+</body>
+
+</html>
