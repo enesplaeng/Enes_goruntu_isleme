@@ -5,7 +5,7 @@ import numpy as np
 img = cv2.imread("ornek.jpg")
 rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 h, w = img.shape[:2]
-factors = [2, 4, 8]
+factors = [2, 10, 26]
 
 def psnr(orig, proc):
     mse = np.mean((orig.astype(np.float32) - proc.astype(np.float32)) ** 2)

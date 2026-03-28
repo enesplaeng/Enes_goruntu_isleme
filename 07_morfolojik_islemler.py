@@ -5,7 +5,7 @@ import numpy as np
 gray = cv2.cvtColor(cv2.imread("ornek.jpg"), cv2.COLOR_BGR2GRAY)
 otsu_val, binary = cv2.threshold(gray, 0, 255,
                                   cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-kernels = [3, 7, 11]
+kernels = [3, 7, 55]
 
 ISLEMLER = [
     ("Dilation\n(Genişletme)",  cv2.MORPH_DILATE,  "#ef5350",

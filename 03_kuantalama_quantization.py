@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 gray = cv2.cvtColor(cv2.imread("ornek.jpg"), cv2.COLOR_BGR2GRAY)
-bits = [8, 4, 2, 1]
+bits = [8, 3, 2, 1]
 
 fig, axes = plt.subplots(2, 4, figsize=(20, 9))
 fig.patch.set_facecolor("#1a1a2e")

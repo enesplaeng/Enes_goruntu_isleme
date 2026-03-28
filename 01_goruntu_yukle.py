@@ -2,7 +2,7 @@ import cv2
 import matplotlib.pyplot as plt
 
 # ── Görüntüyü oku ─────────────────────────────────────────────────────────────
-img  = cv2.imread("ornek.jpg")
+img  = cv2.imread("ytu.jpg")
 rgb  = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 h, w = img.shape[:2]
@@ -17,7 +17,7 @@ plt.suptitle("01 — Görüntü Yükleme ve Temel Bilgiler",
 # Sol: Renkli
 ax1 = fig.add_subplot(1, 3, 1)
 ax1.imshow(rgb)
-ax1.set_title("Renkli (RGB)", fontsize=15, fontweight="bold", color="#4fc3f7", pad=10)
+ax1.set_title("Renkli resim (RGB)", fontsize=15, fontweight="bold", color="#4fc3f7", pad=10)
 ax1.axis("off")
 ax1.text(0.5, -0.04,
          f"Boyut: {w} × {h} piksel   |   Kanal: 3 (R, G, B)   |   Dtype: {img.dtype}",
@@ -26,7 +26,7 @@ ax1.text(0.5, -0.04,
 # Orta: Gri ton
 ax2 = fig.add_subplot(1, 3, 2)
 ax2.imshow(gray, cmap="gray")
-ax2.set_title("Gri Ton (Grayscale)", fontsize=15, fontweight="bold", color="#a5d6a7", pad=10)
+ax2.set_title("Gri Tonlu resim (Grayscale)", fontsize=15, fontweight="bold", color="#a5d6a7", pad=10)
 ax2.axis("off")
 ax2.text(0.5, -0.04,
          f"Min: {gray.min()}   Max: {gray.max()}   Ortalama: {gray.mean():.1f}",

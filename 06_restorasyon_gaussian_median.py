@@ -9,7 +9,7 @@ rng    = np.random.default_rng(42)
 noise  = rng.integers(-30, 30, gray.shape, dtype=np.int16)
 gurult = np.clip(gray.astype(np.int16) + noise, 0, 255).astype(np.uint8)
 
-kernels = [3, 5, 7, 11]
+kernels = [3, 5, 9, 11]
 
 def psnr(a, b):
     mse = np.mean((a.astype(np.float32) - b.astype(np.float32)) ** 2)

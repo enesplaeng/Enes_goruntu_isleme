@@ -4,7 +4,7 @@ import numpy as np
 
 gray    = cv2.cvtColor(cv2.imread("ornek.jpg"), cv2.COLOR_BGR2GRAY)
 hist_eq = cv2.equalizeHist(gray)
-clips   = [1.0, 2.0, 4.0]
+clips   = [1.0, 2.0, 16.0]
 gorseller = [gray, hist_eq] + [
     cv2.createCLAHE(clipLimit=c, tileGridSize=(8,8)).apply(gray)
     for c in clips
@@ -14,7 +14,7 @@ basliklar = [
     "Histogram\nEşitleme (Global)",
     "CLAHE\nclip=1.0  (az)",
     "CLAHE\nclip=2.0  (orta)",
-    "CLAHE\nclip=4.0  (güçlü)",
+    "CLAHE\nclip=16.0  (güçlü)",
 ]
 renkler = ["#4fc3f7", "#ff8a65", "#a5d6a7", "#66bb6a", "#2e7d32"]
 
